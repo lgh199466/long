@@ -25,7 +25,9 @@
     </el-card>
   </div>
 </template>
+
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     // 校验手机号函数
@@ -68,6 +70,8 @@ export default {
             .post('authorizations', this.LoginForm)
             .then(res => {
               // 成功
+              // 设置信息
+              local.setUser(res.data.data)
               this.$router.push('/')
             })
             .catch(() => {
