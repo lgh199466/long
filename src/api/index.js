@@ -11,6 +11,7 @@ axios.interceptors.request.use(config => {
   const user = local.getUser() || {}
   // 2. 头部设置token
   config.headers.Authorization = `Bearer ${user.token}`
+  debugger
   return config
 }, err => {
   return Promise.reject(err)

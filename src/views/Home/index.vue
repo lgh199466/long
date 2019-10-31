@@ -53,8 +53,8 @@
         <!-- 下拉菜单组件 -->
         <el-dropdown class="dropdown" @command="handleClick">
           <span class="el-dropdown-link">
-            <img class="headIcon" src="../../assets/avatar.jpg" alt />
-            <span class="userName">用户名</span>
+            <img class="headIcon" :src="photo" alt />
+            <span class="userName">{{name}}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -78,8 +78,16 @@ export default {
   data () {
     return {
       // 是不是展开的
-      isOpen: true
+      isOpen: true,
+      photo: '',
+      // 名称
+      name: ''
     }
+  },
+  created () {
+    const user = local.getUser() || {}
+    this.photo = user.photo
+    this.name = user.name
   },
   methods: {
     toggleMenu () {
