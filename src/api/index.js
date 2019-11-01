@@ -1,6 +1,17 @@
 import axios from 'axios'
 import local from '@/utils/local'
 import router from '@/router'
+// 导入 bignit解决js最大安全数值的问题
+import JSONBIG from 'json-bigint'
+axios.defaults.transformResponse = [(data) => {
+  // 后台的原始数据   理想情况 json字符串
+  // 后台可能没有任何响应内容  data 值是 null
+  try {
+    return JSONBIG.parse(data)
+  } catch (e) {
+    return data
+  }
+}]
 //  设置一个基准地址
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
 //  导出axios
