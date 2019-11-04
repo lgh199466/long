@@ -5,6 +5,8 @@ import ElementUI from 'element-ui'
 import router from '@/router'
 import axios from '@/api'
 import plugin from '@/components'
+// 全局注册less文件中的样式
+import '@/style/index.less'
 //  导入路由 导入一个文件时会默认去寻找索引文件 基于webpack
 //  @是一个别名  是一个绝对路径 是指./src
 Vue.prototype.$http = axios

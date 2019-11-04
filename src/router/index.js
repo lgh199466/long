@@ -6,6 +6,8 @@ import home from '@/views/Home'
 import error from '@/views/404'
 import local from '@/utils/local'
 import article from '@/views/article'
+import images from '@/views/images'
+import publish from '@/views/publish'
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [{
@@ -21,7 +23,16 @@ const router = new VueRouter({
     }, {
       path: '/article',
       component: article
-    }]
+    },
+    {
+      path: '/image',
+      component: images
+    },
+    {
+      path: '/publish',
+      component: publish
+    }
+    ]
   },
   {
     path: '*',

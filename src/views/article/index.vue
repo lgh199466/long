@@ -16,14 +16,15 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道: ">
-          <el-select v-model="sizeForm.channel_id" placeholder="请选择频道">
+          <!-- <el-select v-model="sizeForm.channel_id" placeholder="请选择频道">
             <el-option
               :label="item.name"
               :value="item.id"
-              v-for="(item,id) in  channelData"
+              v-for="(item,id) in channelData"
               :key="id"
             ></el-option>
-          </el-select>
+          </el-select>-->
+          <my-channel v-model="sizeForm.channel_id"></my-channel>
         </el-form-item>
         <el-form-item label="日期: ">
           <el-date-picker
@@ -77,15 +78,17 @@
         </el-table-column>
       </el-table>
       <!-- 分页功能 -->
-      <el-pagination
-        layout="prev, pager, next"
-        :total="total"
-        :page-size="sizeForm.per_page"
-        :current-page="sizeForm.page"
-        prev-text="上一页"
-        next-text="下一页"
-        @current-change="pageChange"
-      ></el-pagination>
+      <div class="page">
+        <el-pagination
+          layout="prev, pager, next"
+          :total="total"
+          :page-size="sizeForm.per_page"
+          :current-page="sizeForm.page"
+          prev-text="上一页"
+          next-text="下一页"
+          @current-change="pageChange"
+        ></el-pagination>
+      </div>
     </el-card>
   </div>
 </template>
@@ -187,4 +190,14 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.el-card {
+  position: relative;
+}
+.page {
+  width: 100%;
+  margin-top: 20px;
+  position: absolute;
+  left: 37%;
+  bottom: 0;
+}
 </style>
