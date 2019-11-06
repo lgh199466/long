@@ -16,14 +16,24 @@
             <el-radio :label="0">无图</el-radio>
             <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
-          <my-publish></my-publish>
+          <div v-if="sizeForm.cover.type===1">
+            <my-publish v-model="sizeForm.cover.images[0]"></my-publish>
+          </div>
+          <div v-if="sizeForm.cover.type===3">
+            <my-publish v-for="i in 3" :key="i" v-model="sizeForm.cover.images[i-1]"></my-publish>
+          </div>
         </el-form-item>
         <el-form-item label="频道">
           <my-channel v-model="sizeForm.channel_id"></my-channel>
         </el-form-item>
-        <el-form-item label="状态">
-          <el-button type="primary">发表</el-button>
-          <el-button>存入草稿</el-button>
+        <!-- 通过地址栏中是否携带id来判断是否显示修改或发表 -->
+        <el-form-item label="状态" v-if="this.$route.query.id">
+          <el-button type="primary" @click="upData(false)">修改</el-button>
+          <el-button @click="upData(true)">存入草稿</el-button>
+        </el-form-item>
+        <el-form-item label="状态" v-else>
+          <el-button type="primary" @click="creat(false)">发表</el-button>
+          <el-button @click="creat(true)">存入草稿</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -43,11 +53,14 @@ export default {
   data () {
     return {
       sizeForm: {
-        title: '',
-        conent: '',
+        title: null,
+        content: null,
         channel_id: null,
+
         cover: {
-          type: 1
+          type: 1,
+          images: []
+
         }
       },
       // 富文本配置对象
@@ -65,6 +78,50 @@ export default {
           ]
         }
       }
+    }
+  },
+  // 事件监听器  通过监听地址的变化 来判断是编辑还是 发布
+  watch: {
+    '$route.query.id': function (newUrl, oldUrl) {
+      if (newUrl) {
+        this.getArticle(newUrl)
+      } else {
+        this.sizeForm = {
+          title: null,
+          content: null,
+          cover: {
+            type: 1,
+            images: []
+
+          }
+        }
+      }
+    } },
+  // 判断地址栏中是否携带id 也就是是否通过点击编辑跳到发布文章页面
+  created () {
+    const articleID = this.$route.query.id
+    if (articleID) {
+      this.getArticle(articleID)
+    }
+  },
+  methods: {
+    // 获取文章信息
+    async getArticle (id) {
+      const { data: { data } } = await this.$http.get(`/articles/${id}`)
+      this.sizeForm = data
+      console.log(this.sizeForm)
+    },
+    // 发布文章
+    async creat (draft) {
+      await this.$http.post(`/articles?draft=${draft}`, this.sizeForm)
+      this.$message.success(draft ? '存入草稿成功' : '发表文章成功')
+      this.$router.push('/article')
+    },
+    // 修改文章
+    async upData (draft) {
+      await this.$http.put(`/articles/${this.sizeForm.id}?draft=${draft}`, this.sizeForm)
+      this.$message.success(draft ? '存入草稿成功' : '发表文章成功')
+      this.$router.push('/article')
     }
   }
 }

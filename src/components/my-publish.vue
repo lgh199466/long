@@ -2,7 +2,7 @@
   <div class="my-image">
     <!-- 按钮 -->
     <div class="btn_box" @click="open">
-      <img :src="defaultImage" alt="点我" />
+      <img :src="value || defaultImage" alt="点我" />
     </div>
     <!-- 对话框 -->
     <el-dialog :visible.sync="dialogVisible" width="750px">
@@ -62,6 +62,7 @@
 import local from '@/utils/local'
 import defaultImage from '../assets/default.png'
 export default {
+  props: ['value'],
   name: 'my-publish',
   data () {
     return {
@@ -100,7 +101,9 @@ export default {
           return this.$message.warning('请选中一张图片')
         }
         // 给img的src赋值图片地址
-        this.defaultImage = this.selectedImageUrl
+        // this.defaultImage = this.selectedImageUrl
+        // this.dialogVisible = false
+        this.$emit('input', this.selectedImageUrl)
         this.dialogVisible = false
       } else {
         // 上传图片
@@ -108,7 +111,9 @@ export default {
           return this.$message.warning('请上传一张图片')
         }
         // 给img的src赋值图片地址
-        this.defaultImage = this.uploadImageUrl
+        // this.defaultImage = this.uploadImageUrl
+        // this.dialogVisible = false
+        this.$emit('input', this.uploadImageUrl)
         this.dialogVisible = false
       }
     },

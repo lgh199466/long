@@ -8,6 +8,9 @@ import local from '@/utils/local'
 import article from '@/views/article'
 import images from '@/views/images'
 import publish from '@/views/publish'
+import comment from '@/views/comment'
+import setting from '@/views/setting'
+import fans from '@/views/fans'
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [{
@@ -31,6 +34,18 @@ const router = new VueRouter({
     {
       path: '/publish',
       component: publish
+    },
+    {
+      path: '/comment',
+      component: comment
+    },
+    {
+      path: '/fans',
+      component: fans
+    },
+    {
+      path: '/setting',
+      component: setting
     }
     ]
   },

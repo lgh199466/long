@@ -24,6 +24,10 @@
   height: 178px;
   display: block;
 }
+.my-image {
+  display: inline-block;
+  margin-right: 20px;
+}
 .container .ql-editor {
   height: 300px;
 }
